@@ -1,0 +1,58 @@
+﻿@model IEnumerable<ClienteViewModel>
+
+<div class="main-container">
+    @await Html.PartialAsync("_PartialFormularioPesquisa", new ClienteViewModel())
+
+    @if (Model.Count() > 0)
+    {
+        <div class="alert alert-info mt-3">
+            @Model.Count() Clientes(s) encontrado(s)
+        </div>
+        <table class="table mt-3">
+            <tr>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>Telefone</th>
+                <th>Credito</th>
+            </tr>
+            @foreach (var cliente in Model)
+            {
+                <tr>
+                    <td>@cliente.Nome</td>
+                    <td>@cliente.Cpf</td>
+                    <td>@cliente.Telefone</td>
+                    <td>@cliente.Credito</td>
+                    <td>
+                        <button onclick="EditarCliente(@cliente.Cpf)" id="Editar" class="btn btn-sm btn-warning">Editar</button>
+                    </td>
+                    <td>
+                        <button onclick="DeletarCliente(@cliente.Cpf)" id="Deletar" class="btn btn-sm btn-danger">Deletar</button>
+                    </td>
+                    <td>
+                        <button onclick="OfertarCliente(@cliente.Cpf)" id="Ofertar" class="btn btn-sm btn-info">Ofertar</button>
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-danger mt-3">
+            0 Clientes encontrados
+        </div>
+    }
+</div>
+
+<script>
+    function EditarCliente(cpf) {
+        window.location.href = `../Cliente/Editar?cpf=${cpf}`;
+    }
+
+    function DeletarCliente(cpf) {
+        window.location.href = `../Cliente/Deletar?cpf=${cpf}`;
+    }
+
+    function OfertarCliente(cpf) {
+        window.location.href = `../Oferta/Index?cpf=${cpf}`;
+    }
+</script>

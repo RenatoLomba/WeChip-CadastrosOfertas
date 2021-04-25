@@ -1,0 +1,80 @@
+﻿@model ClienteViewModel
+
+<div class="main-container">
+    <h1 class="display-3">Cadastre um cliente</h1>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.Error
+        </div>
+    }
+
+    @if (ViewBag.Success != null)
+    {
+        <div class="alert alert-success">
+            @ViewBag.Success
+        </div>
+    }
+
+    @{
+        string action = ViewBag.Action;
+    }
+
+    @using (Html.BeginForm(action, "Cliente", FormMethod.Post, new { id = "formCliente" }))
+    {
+        <div class="row">
+            <div class="col">
+                @Html.LabelFor(c => c.Nome)
+                @Html.TextBoxFor(c => c.Nome, new
+           {
+               @class = "form-control campo-cliente",
+               @placeholder = "Digite o nome do cliente",
+               @value = Model != null ? Model.Nome : "",
+               @maxlength = "200"
+           })
+            </div>
+            <div class="col">
+                @Html.LabelFor(c => c.Cpf)
+                @Html.TextBoxFor(c => c.Cpf, new
+                {
+               @class = "form-control campo-cliente",
+               @placeholder = "Digite o cpf do cliente",
+               @value = Model != null ? Model.Cpf : "",
+               @maxlength = "11"
+           })
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col">
+                @Html.LabelFor(c => c.Credito)
+                @Html.TextBoxFor(c => c.Credito, new
+                {
+               @class = "form-control",
+               @placeholder = "Digite o credito do cliente",
+               @value = Model != null ? Model.Credito : 0
+           })
+            </div>
+            <div class="col">
+                @Html.LabelFor(c => c.Telefone)
+                @Html.TextBoxFor(c => c.Telefone, new
+                {
+               @class = "form-control campo-cliente",
+               @placeholder = "Digite o telefone do cliente",
+               @value = Model != null ? Model.Telefone : "",
+               @maxlength = "20"
+           })
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-sm-2">
+                <button id="Salvar" type="submit" class="btn btn-success">Salvar</button>
+            </div>
+            <div class="col-sm-2">
+                <button id="Voltar" type="button" class="btn btn-danger">Voltar</button>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,171 @@
+﻿@model OfertaCompleteViewModel
+
+<div class="main-container">
+    <h1 class="display-3">Visualizar venda</h1>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.Error
+        </div>
+    }
+
+    @if (ViewBag.Success != null)
+    {
+        <div class="alert alert-success">
+            @ViewBag.Success
+        </div>
+    }
+
+    <!-- FORM DE CLIENTE -->
+    <h1 class="display-4">Cliente</h1>
+    <div class="row mt-3">
+        <div class="col">
+            @Html.LabelFor(c => c.Cliente.Nome)
+            @Html.TextBoxFor(c => c.Cliente.Nome, new
+       {
+           @class = "form-control campo-oferta",
+           @placeholder = "Digite o nome do cliente",
+           @value = Model != null ? Model.Cliente.Nome : "",
+           @maxlength = "200",
+           @readonly = "readonly"
+       })
+        </div>
+        <div class="col">
+            @Html.LabelFor(c => c.Cliente.Cpf)
+            @Html.TextBoxFor(c => c.Cliente.Cpf, new
+            {
+           @class = "form-control campo-oferta",
+           @placeholder = "Digite o cpf do cliente",
+           @value = Model != null ? Model.Cliente.Cpf : "",
+           @maxlength = "11",
+           @readonly = "readonly"
+       })
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col">
+            @Html.LabelFor(c => c.Cliente.Credito)
+            @Html.TextBoxFor(c => c.Cliente.Credito, new
+            {
+           @class = "form-control",
+           @placeholder = "Digite o credito do cliente",
+           @value = Model != null ? Model.Cliente.Credito : 0,
+           @readonly = "readonly"
+       })
+        </div>
+        <div class="col">
+            @Html.LabelFor(c => c.Cliente.Telefone)
+            @Html.TextBoxFor(c => c.Cliente.Telefone, new
+            {
+           @class = "form-control campo-oferta",
+           @placeholder = "Digite o telefone do cliente",
+           @value = Model != null ? Model.Cliente.Telefone : "",
+           @maxlength = "20",
+           @readonly = "readonly"
+       })
+        </div>
+        <div class="col">
+            @Html.Label("Status")
+            @Html.TextBoxFor(c => c.Cliente.Status.Descricao, new
+            {
+           @class = "form-control",
+           @value = Model != null ? Model.Cliente.Status.Descricao : "",
+           @readonly = "readonly"
+            })
+        </div>
+    </div>
+
+    <!-- FORM DE ENDEREÇO -->
+    <h1 class="display-4 mt-4">Endereço</h1>
+    <div class="row mt-3">
+        <div class="col">
+            @Html.LabelFor(c => c.Endereco.CEP)
+            @Html.TextBoxFor(c => c.Endereco.CEP, new { @class = "form-control campo-oferta", @placeholder = "Digite o CEP", @maxlength = "8", @readonly = "readonly" })
+        </div>
+        <div class="col-sm-6">
+            @Html.LabelFor(c => c.Endereco.Rua)
+            @Html.TextBoxFor(c => c.Endereco.Rua, new { @class = "form-control campo-oferta", @placeholder = "Digite a rua", @maxlength = "200", @readonly = "readonly" })
+        </div>
+        <div class="col">
+            @Html.LabelFor(c => c.Endereco.Numero)
+            @Html.TextBoxFor(c => c.Endereco.Numero, new { @class = "form-control campo-oferta", @placeholder = "Digite o nº", @maxlength = "4", @readonly = "readonly" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            @Html.LabelFor(c => c.Endereco.Complemento)
+            @Html.TextBoxFor(c => c.Endereco.Complemento, new { @class = "form-control campo-oferta", @placeholder = "Digite o complemento", @maxlength = "200", @readonly = "readonly" })
+        </div>
+        <div class="col">
+            @Html.LabelFor(c => c.Endereco.Bairro)
+            @Html.TextBoxFor(c => c.Endereco.Bairro, new { @class = "form-control campo-oferta", @placeholder = "Digite o bairro", @maxlength = "200", @readonly = "readonly" })
+        </div>
+        <div class="col">
+            @Html.LabelFor(c => c.Endereco.Cidade)
+            @Html.TextBoxFor(c => c.Endereco.Cidade, new { @class = "form-control campo-oferta", @placeholder = "Digite a cidade", @maxlength = "200", @readonly = "readonly" })
+        </div>
+        <div class="col-sm-2">
+            @Html.Label("Estado")
+            @Html.TextBoxFor(c => c.Endereco.UF, new { @class = "form-control campo-oferta", @maxlength = "2", @readonly = "readonly" })
+        </div>
+    </div>
+
+    <!-- TABELA DE PRODUTOS -->
+    <h1 class="display-4 mt-4">Produtos</h1>
+    <table class="table">
+        <tr>
+            <th class="d-none">Id</th>
+            <th>Descrição</th>
+            <th>Codigo</th>
+            <th>Tipo</th>
+            <th>Preço</th>
+        </tr>
+
+        @{
+            int i = 0;
+            var Produtos = Model.Produtos.ToList();
+
+            @foreach (var produto in Produtos)
+            {
+                <tr>
+                    <td class="d-none">@Produtos[i].Id</td>
+                    <td>@Produtos[i].Descricao</td>
+                    <td>@Produtos[i].Codigo</td>
+                    <td>@Produtos[i].Tipo</td>
+                    <td>@String.Format("{0:0.00}", Produtos[i].Preco).Replace(".", ",")</td>
+                </tr>
+
+                i++;
+            }
+        }
+    </table>
+
+    <!-- STATUS -->
+    <h1 class="display-4">Status</h1>
+    <div class="row mb-4">
+        <div class="col">
+            @Model.Cliente.Status.Descricao - @Model.Cliente.Status.Codigo
+        </div>
+        <div class="col">
+            <div><strong>Contabiliza venda: </strong></div>
+            @(Model.Cliente.Status.ContabilizaVenda == true ? "Sim" : "Não")
+        </div>
+        <div class="col">
+            <div><strong>Finaliza Cliente: </strong></div>
+            @(Model.Cliente.Status.FinalizaCliente == true ? "Sim" : "Não")
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-danger" id="Voltar">Voltar para Clientes</button>
+    <button type="button" class="btn btn-warning" onclick="Visualizar('@(Model.Id.ToString())')" id="Json">Buscar dados JSON</button>
+</div>
+
+<script>
+    document.querySelector("#Voltar").addEventListener("click", () => window.location.href = "../Cliente/Index");
+
+    function Visualizar(id) {
+        window.location.href = `../api/ofertas/${id}`;
+    }
+</script>

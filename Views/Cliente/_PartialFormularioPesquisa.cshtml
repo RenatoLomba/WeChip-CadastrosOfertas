@@ -1,0 +1,46 @@
+﻿@model ClienteViewModel
+
+
+<h1 class="display-3">Clientes para Ofertar</h1>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.Error
+    </div>
+}
+
+@if(ViewBag.Success != null)
+{
+    <div class="alert alert-success">
+        @ViewBag.Success
+    </div>
+}
+
+@using (Html.BeginForm("Pesquisar", "Cliente", FormMethod.Post, new { id = "formPesquisa" }))
+{
+    <div class="row">
+        <div class="col">
+            @Html.LabelFor(c => c.Nome)
+            @Html.TextBoxFor(c => c.Nome, new { @class = "form-control campo-cliente", @placeholder = "Digite o nome do cliente", @maxlength = "200" })
+        </div>
+        <div class="col">
+            @Html.LabelFor(c => c.Cpf)
+            @Html.TextBoxFor(c => c.Cpf, new { @class = "form-control campo-cliente", @placeholder = "Digite o cpf do cliente", @maxlength = "11" })
+        </div>
+    </div>
+
+    <div class="row mt-3 ml-3">
+        <div class="col-sm-2">
+            <button id="Pesquisar" type="submit" class="btn btn-primary">Pesquisar</button>
+        </div>
+        <div class="col-sm-2">
+            <button id="Cadastrar" type="button" class="btn btn-success">Cadastrar</button>
+        </div>
+    </div>
+}
+
+<script>
+    const form = document.querySelector('#formPesquisa');
+    form.querySelector('#Cadastrar').addEventListener('click', () => window.location.href = '../Cliente/Cadastrar');
+</script>
